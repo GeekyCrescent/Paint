@@ -49,12 +49,23 @@ def make_circle(start, end):
 
     end_fill()
 
-def rectangle(start, end):
-    """Draw rectangle from start to end."""
-    pass  # TODO
-
-
 def triangle(start, end):
+    """Draw rectangle from start to end."""
+    up()
+    goto(start.x, start.y)
+    down()
+    begin_fill()
+
+    lado = ((end.x - start.x) ** 2 + (end.y - start.y) ** 2) ** 0.5
+
+    for _ in range(3):
+        forward(lado)
+        left(120)
+
+    end_fill()
+
+
+def rectangle(start, end):
     """Draw triangle from start to end."""
     pass  # TODO
 
