@@ -174,7 +174,7 @@ dosbox -conf dosbox.conf
 
 **Total Sequence:**
 - Expected: 2924 frames (~48.7 seconds at 60Hz)
-- Actual timing may vary due to DOS timer vs X68000 vsync
+- VGA vsync provides accurate frame timing
 
 ### Comparison with X68000
 
@@ -183,7 +183,7 @@ dosbox -conf dosbox.conf
 | FM Chip | YM2151 | OPL2/3 | Different operators |
 | Channels | 8 | 9 | OPL has one more |
 | PCM Method | DMA | DSP | Different implementation |
-| Timing | Vsync | Timer | Less precise on DOS |
+| Timing | Vsync (CRTC) | Vsync (VGA) | Both hardware-synced |
 | Port I/O | Memory-mapped | Port I/O | Architecture difference |
 
 ## Troubleshooting
@@ -221,10 +221,10 @@ SET PATH=%PATH%;C:\DJGPP\BIN
 - Check DOSBox sblaster settings
 - Try different `oplmode` (auto/opl2/opl3)
 
-**Timing issues**
-- Expected on DOS vs X68000
-- DOS lacks true vsync
-- Timer-based simulation approximate
+**Timing accurate**
+- VGA hardware vsync provides frame-accurate synchronization
+- Automatically adapts to video mode refresh rate
+- Similar accuracy to X68000 CRTC vsync
 
 ## Performance Optimization
 

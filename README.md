@@ -102,6 +102,8 @@ MDFourier-DOS/
 ├── opl.h        - OPL interface
 ├── sbdsp.c      - SoundBlaster DSP driver (replaces MSM6258)
 ├── sbdsp.h      - DSP interface
+├── vga.c        - VGA vsync support
+├── vga.h        - VGA interface
 ├── key.c        - Keyboard input
 ├── key.h        - Input interface
 ├── crc.c        - CRC32 verification
@@ -137,7 +139,7 @@ This port maintains the same test structure as the original:
 |-----------|--------|-----|
 | **FM Chip** | YM2151 (8 channels) | OPL2/OPL3 (9 channels) |
 | **PCM** | MSM6258 ADPCM + DMA | SoundBlaster DSP |
-| **Timing** | Vsync (60Hz) | Timer-based simulation |
+| **Timing** | Vsync (CRTC VDISP) | Vsync (VGA Status) |
 | **Compiler** | human68k-gcc | DJGPP (i386-gcc) |
 | **I/O** | Memory-mapped (0xE90001) | Port I/O (0x388) |
 

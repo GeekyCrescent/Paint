@@ -15,7 +15,7 @@ Successfully migrated MDFourier audio testing suite from Sharp X68000 to MS-DOS 
 | **PCM Chip** | MSM6258 (ADPCM) | SoundBlaster DSP |
 | **PCM Transfer** | DMA | DSP commands |
 | **I/O Method** | Memory-mapped | Port I/O |
-| **Timing** | Vsync (60Hz) | Timer (~60Hz) |
+| **Timing** | Vsync (CRTC VDISP) | Vsync (VGA Status) |
 | **Compiler** | human68k-gcc | DJGPP (i386-gcc) |
 
 ## Key Technical Mappings
@@ -79,12 +79,13 @@ Car:      03  04  05  11  12  13  19  20  21
 - Frequency sweep (all octaves/notes)
 - PCM sample playback
 - Timing measurements
-- Frame counting via timer
+- Frame counting via VGA vsync
 
 ### Timing Adaptation
-- X68000: Hardware vsync at 60Hz
-- DOS: `delay(16)` for ~60Hz simulation
-- Less precise but functional for testing
+- X68000: Hardware vsync at 60Hz (polling CRTC VDISP register)
+- DOS: VGA hardware vsync (polling VGA Input Status Register)
+- Both methods use direct hardware polling for accurate frame synchronization
+- VGA vsync automatically adapts to video mode refresh rate
 
 ## Build System
 
@@ -154,10 +155,10 @@ Both use similar GCC-based toolchains and build structure.
 ## Challenges Overcome
 
 1. **Operator Mapping**: OPL2 has non-linear operator offsets
-2. **Timing**: No hardware vsync on DOS
-3. **PCM Format**: ADPCM vs PCM conversion
-4. **I/O Method**: Memory-mapped vs port I/O
-5. **C99 Compatibility**: Variable declarations for portability
+2. **PCM Format**: ADPCM vs PCM conversion
+3. **I/O Method**: Memory-mapped vs port I/O
+4. **C99 Compatibility**: Variable declarations for portability
+5. **VGA Vsync**: Implemented hardware vsync using VGA status registers
 
 ## Files Created
 
@@ -166,9 +167,10 @@ Both use similar GCC-based toolchains and build structure.
 - mdfourier.c (266 lines)
 - opl.c (128 lines)
 - sbdsp.c (150 lines)
+- vga.c (60 lines) - VGA vsync support
 - key.c (47 lines)
 - crc.c (268 lines)
-- Headers: mdfourier.h, opl.h, sbdsp.h, key.h, crc.h, types.h
+- Headers: mdfourier.h, opl.h, sbdsp.h, vga.h, key.h, crc.h, types.h
 
 ### Documentation
 - README.md (168 lines) - User guide
