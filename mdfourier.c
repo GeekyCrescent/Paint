@@ -13,6 +13,7 @@
 #include "opl.h"
 #include "sbdsp.h"
 #include "key.h"
+#include "vga.h"
 
 int frame_count = 0;
 int pcm_frames = 0;
@@ -20,9 +21,9 @@ int pcm_frames = 0;
 #define PCM_FRAME_LEN  278
 #define MDF_FRAME_LEN  2924
 
-/* Wait for vertical blank (DOS: use timer instead) */
+/* Wait for vertical blank using hardware vsync */
 void wait_frame(void) {
-    delay(16);  /* ~16ms = 60Hz frame */
+    vga_wait_vsync();  /* Wait for VGA vertical retrace */
     frame_count++;
 }
 

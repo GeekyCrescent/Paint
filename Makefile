@@ -16,7 +16,7 @@ TARGET = mdf
 EXE = $(BIN_DIR)/$(TARGET).exe
 
 # Source files
-SOURCES = main.c mdfourier.c opl.c sbdsp.c key.c crc.c
+SOURCES = main.c mdfourier.c opl.c sbdsp.c key.c crc.c vga.c
 
 # Object files
 OBJECTS = $(BUILD_DIR)/main.o \
@@ -24,7 +24,8 @@ OBJECTS = $(BUILD_DIR)/main.o \
           $(BUILD_DIR)/opl.o \
           $(BUILD_DIR)/sbdsp.o \
           $(BUILD_DIR)/key.o \
-          $(BUILD_DIR)/crc.o
+          $(BUILD_DIR)/crc.o \
+          $(BUILD_DIR)/vga.o
 
 # Build rules
 all: dirs $(EXE)
@@ -54,6 +55,9 @@ $(BUILD_DIR)/key.o: key.c
 
 $(BUILD_DIR)/crc.o: crc.c
 	$(CC) $(CFLAGS) -c crc.c -o $(BUILD_DIR)/crc.o
+
+$(BUILD_DIR)/vga.o: vga.c
+	$(CC) $(CFLAGS) -c vga.c -o $(BUILD_DIR)/vga.o
 
 clean:
 	@if exist $(BUILD_DIR)\*.o del $(BUILD_DIR)\*.o

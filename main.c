@@ -18,6 +18,7 @@
 #include "mdfourier.h"
 #include "opl.h"
 #include "sbdsp.h"
+#include "vga.h"
 
 #define PCM_SIZE   39061
 #define PCM_CRC32  0x8E5FFD51
@@ -77,6 +78,10 @@ int main(void) {
     printf("MDFourier for DOS v0.1 -- http://junkerhq.net/MDFourier\n");
     printf("  Based on X68000 version by Artemio Urbina 2021-2022\n");
     printf("  DOS port 2024\n\n");
+    
+    /* Initialize VGA vsync detection */
+    vga_init();
+    printf("VGA vsync initialized\n");
     
     /* Detect Adlib/SoundBlaster */
     printf("Detecting Adlib/SoundBlaster...\n");
