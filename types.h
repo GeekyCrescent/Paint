@@ -38,7 +38,7 @@
 #endif
 
 #ifndef MIN_U32
-#define MIN_U32 0x0000
+#define MIN_U32 0x00000000
 #endif
 #ifndef MAX_U32
 #define MAX_U32 0xFFFFFFFF

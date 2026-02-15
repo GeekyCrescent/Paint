@@ -11,10 +11,9 @@
  */
 
 #include "types.h"
+#include "opl.h"
 
-#define STEREO_RIGHT  0x20
-#define STEREO_LEFT   0x10
-#define STEREO_BOTH   0x30
+/* Stereo definitions in opl.h */
 
 extern int frame_count;
 

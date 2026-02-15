@@ -44,15 +44,20 @@ void opl_keyoffAll() {
 
 /* Load OPL instrument on channel (adapted from YM2151 instrument) */
 void opl_loadchannel(u8 channel) {
+    /* OPL2 operator offsets for each channel
+     * Channel:  0  1  2  3  4  5  6  7  8
+     * Modulator: 0  1  2  8  9 10 16 17 18
+     * Carrier:   3  4  5 11 12 13 19 20 21
+     */
+    static const u8 mod_offset[] = {0, 1, 2, 8, 9, 10, 16, 17, 18};
+    static const u8 car_offset[] = {3, 4, 5, 11, 12, 13, 19, 20, 21};
     u8 op1, op2;
     
     if (channel >= 9)
         return;
     
-    /* OPL2 operator offsets for each channel */
-    /* Modulator and Carrier offsets */
-    op1 = channel;       /* Modulator offset */
-    op2 = channel + 3;   /* Carrier offset */
+    op1 = mod_offset[channel];  /* Modulator */
+    op2 = car_offset[channel];  /* Carrier */
     
     /* Modulator settings */
     OPL_writeReg(0x20 + op1, 0x01);  /* AM/VIB/EG/KSR/Multi */
@@ -62,11 +67,11 @@ void opl_loadchannel(u8 channel) {
     OPL_writeReg(0xE0 + op1, 0x00);  /* Waveform */
     
     /* Carrier settings */
-    OPL_writeReg(0x23 + op2, 0x01);  /* AM/VIB/EG/KSR/Multi */
-    OPL_writeReg(0x43 + op2, 0x00);  /* Key scale/Output level */
-    OPL_writeReg(0x63 + op2, 0xF0);  /* Attack/Decay */
-    OPL_writeReg(0x83 + op2, 0x77);  /* Sustain/Release */
-    OPL_writeReg(0xE3 + op2, 0x00);  /* Waveform */
+    OPL_writeReg(0x20 + op2, 0x01);  /* AM/VIB/EG/KSR/Multi */
+    OPL_writeReg(0x40 + op2, 0x00);  /* Key scale/Output level */
+    OPL_writeReg(0x60 + op2, 0xF0);  /* Attack/Decay */
+    OPL_writeReg(0x80 + op2, 0x77);  /* Sustain/Release */
+    OPL_writeReg(0xE0 + op2, 0x00);  /* Waveform */
     
     /* Feedback/Connection */
     OPL_writeReg(0xC0 + channel, 0x01);
@@ -192,6 +197,8 @@ void ExecutePCM() {
 }
 
 void MDFSequence(u16 framelen, u8 *pcm, u16 pcm_size) {
+    int wait;
+    
     opl_init();
     
     wait_frame();
@@ -205,7 +212,7 @@ void MDFSequence(u16 framelen, u8 *pcm, u16 pcm_size) {
         return;
     
     /* Wait for 4 frames */
-    for (int wait = 0; wait < 4; wait++)
+    for (wait = 0; wait < 4; wait++)
         wait_frame();
         
     ExecutePCM();
