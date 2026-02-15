@@ -1,0 +1,32 @@
+# Build artifacts
+build/
+bin/
+*.o
+*.obj
+*.exe
+*.com
+
+# Compiler specific
+*.map
+*.err
+*.gch
+
+# DOS specific
+*.BAK
+*.bak
+
+# Editor temporary files
+*~
+*.swp
+*.swo
+.*.swp
+
+# IDE files
+.vscode/
+.idea/
+*.suo
+*.user
+
+# System files
+.DS_Store
+Thumbs.db
